@@ -30,6 +30,21 @@ class ComposerStaticInit31082b1d7b7a0883afb0faa69cd38227
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'Firebase\\JWT\\BeforeValidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/BeforeValidException.php',
+        'Firebase\\JWT\\ExpiredException' => __DIR__ . '/..' . '/firebase/php-jwt/src/ExpiredException.php',
+        'Firebase\\JWT\\JWK' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWK.php',
+        'Firebase\\JWT\\JWT' => __DIR__ . '/..' . '/firebase/php-jwt/src/JWT.php',
+        'Firebase\\JWT\\Key' => __DIR__ . '/..' . '/firebase/php-jwt/src/Key.php',
+        'Firebase\\JWT\\SignatureInvalidException' => __DIR__ . '/..' . '/firebase/php-jwt/src/SignatureInvalidException.php',
+        'Lib\\Controller' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/Controller.php',
+        'Lib\\Database' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/Database.php',
+        'Lib\\Pagination' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/Pagination.php',
+        'Lib\\Response' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/Response.php',
+        'Lib\\Router' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/Router.php',
+        'Lib\\SearchPagination' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/SearchPagination.php',
+        'Lib\\Serializer' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/Serializer.php',
+        'Lib\\TokenAttributes' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/TokenAttributes.php',
+        'Lib\\Validator' => __DIR__ . '/..' . '/wonder-tech/wonder-ral/src/Validator.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
