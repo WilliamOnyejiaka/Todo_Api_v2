@@ -1,0 +1,15 @@
+{
+    "name": "user/todo_api_v2",
+    "description": "An basic api that can perform crud operations on a todolist",
+    "type": "project",
+    "authors": [
+        {
+            "name": "William Onyejiaka",
+            "email": "williamonyejiaka08062528003@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "wonder-tech/wonder-ral": "dev-main"
+    }
+}
