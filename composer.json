@@ -10,6 +10,12 @@
     ],
     "minimum-stability": "dev",
     "require": {
+        "vlucas/phpdotenv": "5.4.x-dev",
         "wonder-tech/wonder-ral": "dev-main"
+    },
+    "autoload": {
+      "psr-4": {
+        "Models\\":"api/v2/models/"
+      }
     }
 }
