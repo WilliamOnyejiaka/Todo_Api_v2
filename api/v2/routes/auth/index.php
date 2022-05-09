@@ -15,6 +15,7 @@ use Lib\Response;
 use Lib\Serializer;
 use Lib\Controller;
 use Lib\TokenAttributes;
+use Models\Todo;
 
 $auth = new Router("auth",config('allow_cors'));
 
@@ -85,6 +86,90 @@ $auth->get("/token/new_access_token",fn() => (new Controller())->protected_contr
     $active_user = array('id' => $payload->data->id);
     $access_token = JWT::encode((new TokenAttributes($active_user))->access_token_payload(),config('secret_key'),config('hash'));
     $response->send_response(200,[["error",false],["access_token",$access_token]]);
+  }
+}));
+
+$auth->patch("/update/name",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new Validator())->validate_body($body,['new_name']);
+  $user = new User((new Database(config('host'),config('username'),config('password'),config('database_name')))->connect());
+  $response = new Response();
+  if($user->update_name($payload->data->id,$body->new_name)){
+    $response->send_response(200,[['error',false],['message','user name updated successfully']]);
+  }else{
+    $response->send_response(500,[['error',true],['message','something went wrong']]);
+  }
+}));
+
+$auth->patch("/update/email",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  $validator = new Validator();
+  $response = new Response();
+
+  $validator->validate_body($body,['new_email']);
+  $validator->validate_email_with_response($body->new_email);
+
+  $user = new User((new Database(config('host'),config('username'),config('password'),config('database_name')))->connect());
+  $email_exists =  (new Serializer(['email']))->tuple($user->get_user($body->new_email));
+
+  if($email_exists){
+    $response->send_response(400,[['error',true],['message','email exists']]);
+  }else{
+    if($user->update_email($payload->data->id,$body->new_email)){
+      $response->send_response(200,[['error',false],['message','user email updated successfully']]);
+    }else{
+      $response->send_response(500,[['error',true],['message','something went wrong']]);
+    }
+  }
+}));
+
+$auth->patch("/update/password",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  $validator = new Validator();
+
+  $validator->validate_body($body,['old_password','new_password']);
+  $validator->validate_password_with_response($body->new_password,5);
+
+  $user = new User((new Database(config('host'),config('username'),config('password'),config('database_name')))->connect());
+  $current_password_hash = ((new Serializer(['password']))->tuple($user->get_user_with_id($payload->data->id)))['password'];
+
+  $response = new Response();
+
+  $password_matches = password_verify($body->old_password,$current_password_hash);
+  if($password_matches){
+    if($user->update_password($payload->data->id,$body->new_password)){
+      $response->send_response(200,[['error',false],['message','user password updated successfully']]);
+    }else{
+      $response->send_response(500,[['error',true],['message','something went wrong']]);
+    }
+  }else {
+    $response->send_response(400,[['error',true],['message','invalid password']]);
+  }
+
+}));
+
+$auth->delete("/delete",fn() => (new Controller())->access_token_controller(function($payload,$body){
+
+  (new Validator())->validate_body($body,['password']);
+
+  $connection = (new Database(config('host'),config('username'),config('password'),config('database_name')))->connect();
+  $user = new User($connection);
+  $todo = new Todo($connection);
+  $user_id = $payload->data->id;
+  $current_password_hash = ((new Serializer(['password']))->tuple($user->get_user_with_id($user_id)))['password']??false;
+
+  $response = new Response();
+
+  if($current_password_hash){
+    $password_matches = password_verify($body->password,$current_password_hash);
+    if($password_matches){
+      if($user->delete_user($user_id) && $todo->delete_user_todos($user_id)){
+        $response->send_response(200,[['error',false],['message','user deleted successfully']]);
+      }else{
+        $response->send_response(500,[['error',true],['message','something went wrong']]);
+      }
+    }else {
+      $response->send_response(400,[['error',true],['message','invalid password']]);
+    }
+  }else {
+    $response->send_response(400,[['error',true],['message','user does not exists']]);
   }
 }));
 

@@ -533,12 +533,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/WilliamOnyejiaka/wonder-ral.git",
-                "reference": "ab7ef36885396c076d01cae00113360c31995a92"
+                "reference": "6df3e52892418430a876ddf3778e262b05a283f8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WilliamOnyejiaka/wonder-ral/zipball/ab7ef36885396c076d01cae00113360c31995a92",
-                "reference": "ab7ef36885396c076d01cae00113360c31995a92",
+                "url": "https://api.github.com/repos/WilliamOnyejiaka/wonder-ral/zipball/6df3e52892418430a876ddf3778e262b05a283f8",
+                "reference": "6df3e52892418430a876ddf3778e262b05a283f8",
                 "shasum": ""
             },
             "require": {
@@ -563,7 +563,7 @@
                 "issues": "https://github.com/WilliamOnyejiaka/wonder-ral/issues",
                 "source": "https://github.com/WilliamOnyejiaka/wonder-ral/tree/main"
             },
-            "time": "2022-05-05T03:22:28+00:00"
+            "time": "2022-05-08T23:30:04+00:00"
         }
     ],
     "packages-dev": [],

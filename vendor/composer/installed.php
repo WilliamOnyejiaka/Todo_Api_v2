@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '369650407fd4f1ab1ba8b9a27055cb8a5f798e8d',
+        'reference' => 'c2999c01b99ed223345ab2a31dc57226a146f4a7',
         'name' => 'user/todo_api_v2',
         'dev' => true,
     ),
@@ -72,7 +72,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '369650407fd4f1ab1ba8b9a27055cb8a5f798e8d',
+            'reference' => 'c2999c01b99ed223345ab2a31dc57226a146f4a7',
             'dev_requirement' => false,
         ),
         'vlucas/phpdotenv' => array(
@@ -94,7 +94,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => 'ab7ef36885396c076d01cae00113360c31995a92',
+            'reference' => '6df3e52892418430a876ddf3778e262b05a283f8',
             'dev_requirement' => false,
         ),
     ),

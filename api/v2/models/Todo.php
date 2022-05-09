@@ -62,5 +62,12 @@ class Todo {
     $stmt->bind_param("ii",$id,$user_id);
     return $stmt->execute() ? true : false;
   }
+
+  public function delete_user_todos(int $user_id){
+    $query = "DELETE FROM $this->tbl_name WHERE user_id = ?";
+    $stmt = $this->connection->prepare($query);
+    $stmt->bind_param("i",$user_id);
+    return $stmt->execute();
+  }
 }
 ?>

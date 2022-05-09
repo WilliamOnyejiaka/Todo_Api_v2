@@ -37,9 +37,39 @@ class User {
   public function get_user_with_id($id){
     $query = "SELECT * FROM $this->tbl_name WHERE id = ?";
     $stmt = $this->connection->prepare($query);
-    $id = htmlspecialchars(strip_tags($id));
     $stmt->bind_param("i",$id);
     $stmt->execute();
     return $stmt->get_result();
+  }
+
+  public function update_name(int $id,string $name):bool {
+    $query = "UPDATE $this->tbl_name SET name = ? WHERE id = ?";
+    $stmt = $this->connection->prepare($query);
+    $name = htmlspecialchars(strip_tags($name));
+    $stmt->bind_param("si",$name,$id);
+    return $stmt->execute();
+  }
+
+  public function update_email(int $id,string $email):bool {
+    $query = "UPDATE $this->tbl_name SET email = ? WHERE id = ?";
+    $stmt = $this->connection->prepare($query);
+    $email = htmlspecialchars(strip_tags($email));
+    $stmt->bind_param("si",$email,$id);
+    return $stmt->execute();
+  }
+
+  public function update_password(int $id,string $password):bool {
+    $query = "UPDATE $this->tbl_name SET password = ? WHERE id = ?";
+    $stmt = $this->connection->prepare($query);
+    $password = htmlspecialchars(strip_tags(password_hash($password,PASSWORD_DEFAULT)));
+    $stmt->bind_param("si",$password,$id);
+    return $stmt->execute();
+  }
+
+  public function delete_user(int $id){
+    $query = "DELETE FROM $this->tbl_name WHERE  id = ?";
+    $stmt = $this->connection->prepare($query);
+    $stmt->bind_param("i",$id);
+    return $stmt->execute();
   }
 }
