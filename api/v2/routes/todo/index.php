@@ -10,15 +10,18 @@ use \Firebase\JWT\Key;
 use Lib\Router;
 use Lib\Validator;
 use Lib\Database;
-use Models\Todo;
+use Model\Todo;
 use Lib\Response;
 use Lib\Controller;
 use Lib\Serializer;
 use Lib\SearchPagination;
+use Module\UserExists;
+use Lib\Pagination;
 
 $todo = new Router("todo",config('allow_cors'));
 
 $todo->post("/",fn() => (new Controller())->access_token_controller(function($payload,$body){
+    (new UserExists($payload->data->id))->user_exists_response();
     $response = new Response();
     (new Validator())->validate_body($body,['title']);
     $completed = $body->completed?? 0;
@@ -32,6 +35,7 @@ $todo->post("/",fn() => (new Controller())->access_token_controller(function($pa
 }));
 
 $todo->get("/",fn() => (new Controller())->access_token_controller(function($payload,$body) {
+  (new UserExists($payload->data->id))->user_exists_response();
   $response = new Response();
   $todo_id = intval((new Validator())->validate_query_strings(['id'])['id']);
   $user_id = $payload->data->id;
@@ -42,6 +46,7 @@ $todo->get("/",fn() => (new Controller())->access_token_controller(function($pay
 }));
 
 $todo->get("/get_all_todos",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   $connection = (new Database(config('host'),config('username'),config('password'),config('database_name')))->connect();
   $response = new Response();
 
@@ -61,6 +66,7 @@ $todo->get("/get_all_todos",fn() => (new Controller())->access_token_controller(
 }));
 
 $todo->get("/search",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   $connection = (new Database(config('host'),config('username'),config('password'),config('database_name')))->connect();
   $response = new Response();
 
@@ -81,6 +87,7 @@ $todo->get("/search",fn() => (new Controller())->access_token_controller(functio
 }));
 
 $todo->patch("/update_todo/title",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   (new Validator())->validate_body($body,['id','title']);
   $response = new Response();
 
@@ -103,6 +110,7 @@ $todo->patch("/update_todo/title",fn() => (new Controller())->access_token_contr
 }));
 
 $todo->patch("/update_todo/completed",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   (new Validator())->validate_body($body,['id']);
   $completed_isset = isset($body->completed);
   $response = new Response();
@@ -133,6 +141,7 @@ $todo->patch("/update_todo/completed",fn() => (new Controller())->access_token_c
 }));
 
 $todo->put("/update_todo",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   (new Validator())->validate_body($body,['id','title']);
   $completed_isset = isset($body->completed);
   $response = new Response();
@@ -163,6 +172,7 @@ $todo->put("/update_todo",fn() => (new Controller())->access_token_controller(fu
 }));
 
 $todo->delete("/delete",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   $todo_id = intval((new Validator())->validate_query_strings(['todo_id'])['todo_id']);
   $user_id = $payload->data->id;
   $todo = new Todo((new Database(config('host'),config('username'),config('password'),config('database_name')))->connect());

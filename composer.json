@@ -15,7 +15,8 @@
     },
     "autoload": {
       "psr-4": {
-        "Models\\":"api/v2/models/"
+        "Model\\":"api/v2/models/",
+        "Module\\":"modules/"
       }
     }
 }

@@ -10,12 +10,13 @@ use \Firebase\JWT\Key;
 use Lib\Router;
 use Lib\Validator;
 use Lib\Database;
-use Models\User;
+use Model\User;
 use Lib\Response;
 use Lib\Serializer;
 use Lib\Controller;
 use Lib\TokenAttributes;
-use Models\Todo;
+use Model\Todo;
+use Module\UserExists;
 
 $auth = new Router("auth",config('allow_cors'));
 
@@ -76,6 +77,7 @@ $auth->get("/login",fn() => (new Controller())->public_controller(function($body
 }));
 
 $auth->get("/token/new_access_token",fn() => (new Controller())->protected_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   $validator = new Validator();
   $response = new Response();
 
@@ -90,6 +92,7 @@ $auth->get("/token/new_access_token",fn() => (new Controller())->protected_contr
 }));
 
 $auth->patch("/update/name",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   (new Validator())->validate_body($body,['new_name']);
   $user = new User((new Database(config('host'),config('username'),config('password'),config('database_name')))->connect());
   $response = new Response();
@@ -101,6 +104,7 @@ $auth->patch("/update/name",fn() => (new Controller())->access_token_controller(
 }));
 
 $auth->patch("/update/email",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   $validator = new Validator();
   $response = new Response();
 
@@ -122,6 +126,7 @@ $auth->patch("/update/email",fn() => (new Controller())->access_token_controller
 }));
 
 $auth->patch("/update/password",fn() => (new Controller())->access_token_controller(function($payload,$body){
+  (new UserExists($payload->data->id))->user_exists_response();
   $validator = new Validator();
 
   $validator->validate_body($body,['old_password','new_password']);
@@ -146,7 +151,7 @@ $auth->patch("/update/password",fn() => (new Controller())->access_token_control
 }));
 
 $auth->delete("/delete",fn() => (new Controller())->access_token_controller(function($payload,$body){
-
+  (new UserExists($payload->data->id))->user_exists_response();
   (new Validator())->validate_body($body,['password']);
 
   $connection = (new Database(config('host'),config('username'),config('password'),config('database_name')))->connect();

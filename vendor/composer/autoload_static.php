@@ -25,7 +25,8 @@ class ComposerStaticInit31082b1d7b7a0883afb0faa69cd38227
         ),
         'M' => 
         array (
-            'Models\\' => 7,
+            'Module\\' => 7,
+            'Model\\' => 6,
         ),
         'L' => 
         array (
@@ -62,7 +63,11 @@ class ComposerStaticInit31082b1d7b7a0883afb0faa69cd38227
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
-        'Models\\' => 
+        'Module\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/modules',
+        ),
+        'Model\\' => 
         array (
             0 => __DIR__ . '/../..' . '/api/v2/models',
         ),
